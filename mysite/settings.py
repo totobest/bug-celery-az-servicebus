@@ -15,14 +15,16 @@ import os
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 
-#: Only add pickle to this list if your broker is secured
-#: from unwanted access (see userguide/security.html)
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_BACKEND = "db+sqlite:///results.sqlite"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_DEFAULT_QUEUE = os.environ.get("CELERY_TASK_DEFAULT_QUEUE")
-CELERY_TASK_PUBLISH_RETRY = False
+CELERY_BROKER_POOL_LIMIT = 0
+CELERY_TASK_PUBLISH_RETRY = True
+CELERY_TASK_PUBLISH_RETRY_POLICY = {
+    "max_retries": 99,
+    "interval_start": 0,
+    "interval_step": 0.2,
+    "interval_max": 10,
+}
 
 from pathlib import Path
 
